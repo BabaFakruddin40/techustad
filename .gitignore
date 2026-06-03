@@ -16,9 +16,16 @@
 *secret*.json
 
 # TLS / cert artifacts (keep placeholders if needed)
+certs/
 certs/*.key
 certs/*.csr
 certs/*.srl
+certs/*.crt
+certs/*.pem
+certs/*.p12
+certs/*.pfx
+certs/*.jks
+certs/*.keystore    
 
 # =========================
 # Terraform Sensitive Files
