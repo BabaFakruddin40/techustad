@@ -67,11 +67,11 @@ flowchart LR
   N --> A2[techustad-web-2:3002]
   N --> A3[techustad-web-3:3003]
 
-  A1 --> H1[/health]
-  A2 --> H2[/health]
-  A3 --> H3[/health]
+  A1 --> H1["/health"]
+  A2 --> H2["/health"]
+  A3 --> H3["/health"]
 
-  C[(certs/techustad.crt + certs/techustad.key)] --> N
+  C["certs/techustad.crt + certs/techustad.key"] --> N
 ```
 
 ## Run Locally (Node)
