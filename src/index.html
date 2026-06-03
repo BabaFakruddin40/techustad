@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechUstad - Learn Tech. Lead the Future.</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0f172a;
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --text: #334155;
+      --muted: #64748b;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    /* ── Navbar ── */
+    nav {
+      background-color: var(--primary);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      padding: 1rem 0;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-text span {
+      color: var(--accent-light);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 0.55rem 1rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      border-radius: 6px;
+      padding: 0.55rem 1.2rem !important;
+      font-weight: 600;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: #4f46e5 !important;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+      color: #fff;
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(99, 102, 241, 0.5);
+      color: var(--accent-light);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 span {
+      color: var(--accent-light);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.3);
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent-light);
+      background: rgba(99,102,241,0.15);
+    }
+
+    /* ── Sections ── */
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    /* ── Courses ── */
+    #courses {
+      background: var(--white);
+      max-width: 100%;
+      padding: 4rem 2rem;
+    }
+
+    #courses > .section-title,
+    .courses-grid {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .course-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.12);
+    }
+
+    .course-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .course-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .course-tag {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* ── About ── */
+    #about {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      max-width: 100%;
+      color: #fff;
+      padding: 4rem 2rem;
+    }
+
+    #about > .section-title,
+    .about-grid {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #about .section-title h2 {
+      color: #fff;
+    }
+
+    #about .section-title p {
+      color: #94a3b8;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: #94a3b8;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-light);
+    }
+
+    .stat-card .label {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--white);
+      max-width: 100%;
+      padding: 4rem 2rem;
+    }
+
+    #contact > .section-title,
+    .contact-grid {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .contact-info h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .contact-item-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .contact-item-text strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-item-text span {
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+      border-color: var(--accent);
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .contact-form button {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+    }
+
+    .contact-form button:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--primary);
+      color: #94a3b8;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+
+    footer strong {
+      color: var(--accent-light);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-icon">TU</div>
+      <span class="logo-text">Tech<span>Ustad</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#courses" class="active">Courses</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Enroll Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-badge">&#x1F393; Learn. Build. Deploy.</div>
+    <h1>Master Technology with<br /><span>TechUstad</span></h1>
+    <p>Industry-focused tech courses in Cloud, DevOps, Kubernetes, and more — taught by practitioners, built for the modern era.</p>
+    <div class="hero-actions">
+      <a href="#courses" class="btn-primary">Browse Courses</a>
+      <a href="#about" class="btn-outline">About Us</a>
+    </div>
+  </div>
+
+  <!-- ── Courses ── -->
+  <div id="courses">
+    <div class="section-title">
+      <h2>Our Tech Courses</h2>
+      <p>Hands-on, project-based learning for real-world skills</p>
+    </div>
+    <div class="courses-grid">
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#e0e7ff;">&#x2601;&#xFE0F;</div>
+        <h3>Kubernetes (CKA)</h3>
+        <p>Master container orchestration — from cluster setup to production-grade deployments. Prep for the CKA exam with hands-on labs.</p>
+        <span class="course-tag">DevOps</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#fce7f3;">&#x1F6E0;&#xFE0F;</div>
+        <h3>DevOps &amp; CI/CD</h3>
+        <p>Build automated pipelines with Jenkins, GitHub Actions, and ArgoCD. Ship software faster with confidence.</p>
+        <span class="course-tag">DevOps</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#d1fae5;">&#x1F4BB;</div>
+        <h3>Terraform &amp; IaC</h3>
+        <p>Provision cloud infrastructure on AWS, Azure, and GCP using Terraform. Write reusable, version-controlled infrastructure code.</p>
+        <span class="course-tag">Cloud</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#fef9c3;">&#x1F433;</div>
+        <h3>Docker &amp; Containers</h3>
+        <p>Containerize applications from scratch. Understand images, volumes, networks, and Docker Compose workflows.</p>
+        <span class="course-tag">Containers</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#dbeafe;">&#x1F5A7;&#xFE0F;</div>
+        <h3>Cloud Computing (Azure / AWS)</h3>
+        <p>Learn core cloud services, networking, storage, security, and deployment strategies on Azure and AWS.</p>
+        <span class="course-tag">Cloud</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#ede9fe;">&#x1F40D;</div>
+        <h3>Python for DevOps</h3>
+        <p>Automate infrastructure tasks, write Kubernetes operators, and build CLI tools using Python.</p>
+        <span class="course-tag">Programming</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#fee2e2;">&#x1F4E1;</div>
+        <h3>Networking Fundamentals</h3>
+        <p>Understand TCP/IP, DNS, VPCs, subnets, firewalls, and cloud networking — essential knowledge for any cloud/DevOps engineer.</p>
+        <span class="course-tag">Networking</span>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon" style="background:#ecfdf5;">&#x1F512;</div>
+        <h3>DevSecOps</h3>
+        <p>Integrate security into your pipelines. Learn SAST, DAST, container scanning, secrets management, and compliance automation.</p>
+        <span class="course-tag">Security</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── About ── -->
+  <div id="about">
+    <div class="section-title">
+      <h2>About TechUstad</h2>
+      <p>Who we are and what drives us</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p><strong style="color:#a5b4fc;">TechUstad</strong> (Ustad means <em>Master / Expert</em>) is a tech education platform built by engineers, for engineers. We believe that real learning happens through building — not just watching.</p>
+        <p>Our curriculum is designed around real-world industry scenarios. Every course comes with hands-on labs, project walkthroughs, and mentorship from practitioners who work in the field every day.</p>
+        <p>Whether you're just starting your cloud journey or looking to level up into senior DevOps roles, TechUstad gives you the structured path and the community to get there.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="number">5K+</div>
+          <div class="label">Students Enrolled</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">20+</div>
+          <div class="label">Courses Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">95%</div>
+          <div class="label">Completion Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">10+</div>
+          <div class="label">Industry Mentors</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Contact ── -->
+  <div id="contact">
+    <div class="section-title">
+      <h2>Contact Us</h2>
+      <p>Have questions? We'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Get In Touch</h3>
+
+        <div class="contact-item">
+          <div class="contact-item-icon">&#x1F4E7;</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <span>hello@techustad.com</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-item-icon">&#x1F4DE;</div>
+          <div class="contact-item-text">
+            <strong>Phone</strong>
+            <span>+1 (800) TECH-USD</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-item-icon">&#x1F4CD;</div>
+          <div class="contact-item-text">
+            <strong>Location</strong>
+            <span>Remote-first — Serving students worldwide</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-item-icon">&#x1F4AC;</div>
+          <div class="contact-item-text">
+            <strong>Community</strong>
+            <span>Join our Slack &amp; Discord channels</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <input type="text" placeholder="First Name" required />
+          <input type="text" placeholder="Last Name" required />
+        </div>
+        <input type="email" placeholder="Email Address" required />
+        <select>
+          <option value="" disabled selected>I'm interested in...</option>
+          <option>Kubernetes (CKA)</option>
+          <option>DevOps &amp; CI/CD</option>
+          <option>Terraform &amp; IaC</option>
+          <option>Docker &amp; Containers</option>
+          <option>Cloud Computing</option>
+          <option>Python for DevOps</option>
+          <option>Networking Fundamentals</option>
+          <option>DevSecOps</option>
+        </select>
+        <textarea placeholder="Your message or question..."></textarea>
+        <button type="submit">Send Message &#x2192;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>&copy; 2026 <strong>TechUstad</strong>. All rights reserved. &nbsp;|&nbsp; Learn Tech. Lead the Future.</p>
+  </footer>
+
+  <script>
+    // Smooth scrolling for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Contact form handler
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Message Sent! ✓';
+      btn.style.background = '#059669';
+      setTimeout(() => {
+        btn.textContent = 'Send Message →';
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>

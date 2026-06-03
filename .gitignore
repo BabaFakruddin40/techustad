@@ -1,0 +1,56 @@
+# =========================
+# Security / Secrets
+# =========================
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.kubeconfig
+*secrets*.yml
+*secrets*.yaml
+*secret*.json
+
+# TLS / cert artifacts (keep placeholders if needed)
+certs/*.key
+certs/*.csr
+certs/*.srl
+
+# =========================
+# Terraform Sensitive Files
+# =========================
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+
+# =========================
+# Docker Sensitive / Local
+# =========================
+.docker/
+.dockerignore.local
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Docker runtime leftovers
+*.pid
+*.log
+
+# =========================
+# General Local Artifacts
+# =========================
+.DS_Store
+.vscode/
+.idea/
+*.swp
