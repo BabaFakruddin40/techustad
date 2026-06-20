@@ -477,6 +477,517 @@
       .contact-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
     }
+
+    /* ── Auth Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 440px;
+      margin: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+      padding: 0.25rem;
+    }
+    .modal-close:hover { color: var(--primary); }
+
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .modal p.modal-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-auth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--primary);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .social-btn:hover { background: var(--bg); border-color: #cbd5e1; }
+    .social-btn.google  { border-color: #ea4335; color: #ea4335; }
+    .social-btn.github  { border-color: #24292e; color: #24292e; }
+    .social-btn.instagram { border-color: #e1306c; color: #e1306c; }
+    .social-btn.phone   { border-color: var(--accent); color: var(--accent); grid-column: 1/-1; }
+
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1rem 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .auth-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .auth-form input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-form input:focus { border-color: var(--accent); }
+
+    .auth-form .btn-auth {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .auth-form .btn-auth:hover { background: #4f46e5; }
+
+    .auth-toggle {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .auth-toggle a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+    .otp-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+    }
+    .otp-row button {
+      padding: 0.75rem 1rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .otp-row button:hover { background: #4f46e5; }
+    .otp-row button:disabled { background: #94a3b8; cursor: default; }
+
+    .auth-error {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      display: none;
+    }
+    .auth-error.show { display: block; }
+
+    .auth-success {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      display: none;
+    }
+    .auth-success.show { display: block; }
+
+    /* ── User Pill (logged in indicator) ── */
+    .user-pill {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 999px;
+      padding: 0.35rem 1rem 0.35rem 0.6rem;
+      cursor: pointer;
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .user-pill:hover { background: rgba(99,102,241,0.3); }
+    .user-pill .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      overflow: hidden;
+    }
+    .user-pill .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Payment Modal ── */
+    .payment-modal .course-selection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .course-option {
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .course-option:hover { border-color: var(--accent); color: var(--accent); }
+    .course-option.selected { border-color: var(--accent); background: rgba(99,102,241,0.08); color: var(--accent); }
+
+    .price-display {
+      text-align: center;
+      margin: 1rem 0;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .price-display span { font-size: 1rem; font-weight: 600; color: var(--muted); }
+
+    .card-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .card-form input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+    }
+    .card-form input:focus { border-color: var(--accent); }
+    .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .pay-btn {
+      background: #059669;
+      color: #fff;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pay-btn:hover { background: #047857; }
+    .pay-btn:disabled { background: #94a3b8; cursor: default; }
+    .secure-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ── Support Chat Widget ── */
+    .support-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+      z-index: 500;
+      transition: transform 0.2s, background 0.2s;
+      border: none;
+    }
+    .support-fab:hover { transform: scale(1.1); background: #4f46e5; }
+    .support-fab .badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 18px;
+      height: 18px;
+      background: #ef4444;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+
+    .support-panel {
+      position: fixed;
+      bottom: 6rem;
+      right: 2rem;
+      width: 360px;
+      max-height: 520px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      z-index: 500;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .support-panel.open { display: flex; }
+
+    .support-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .support-header h4 { font-size: 1rem; font-weight: 700; }
+    .support-header p  { font-size: 0.8rem; color: #94a3b8; }
+    .support-header button {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .support-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    .support-tab {
+      flex: 1;
+      padding: 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .support-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .support-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.2rem;
+    }
+
+    .support-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .support-form input,
+    .support-form textarea,
+    .support-form select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+    }
+    .support-form input:focus,
+    .support-form textarea:focus { border-color: var(--accent); }
+    .support-form textarea { min-height: 80px; resize: vertical; }
+    .support-submit {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .support-submit:hover { background: #4f46e5; }
+
+    .ticket-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .ticket-card:hover { border-color: var(--accent); }
+    .ticket-card h5 { font-size: 0.88rem; font-weight: 700; color: var(--primary); margin-bottom: 0.25rem; }
+    .ticket-meta { display: flex; gap: 0.5rem; align-items: center; }
+    .ticket-status {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+    .status-open   { background: #dbeafe; color: #1d4ed8; }
+    .status-closed { background: #d1fae5; color: #065f46; }
+    .ticket-date   { font-size: 0.75rem; color: var(--muted); }
+
+    .chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .chat-msg {
+      padding: 0.6rem 0.85rem;
+      border-radius: 10px;
+      max-width: 85%;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .chat-msg.user  { background: var(--accent); color: #fff; align-self: flex-end; }
+    .chat-msg.agent { background: var(--bg); border: 1px solid var(--border); align-self: flex-start; }
+
+    /* ── Enrollment Badge on Course Cards ── */
+    .enrolled-badge {
+      display: none;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* ── Pricing section ── */
+    #pricing {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 4rem 2rem;
+    }
+    #pricing > .section-title,
+    .pricing-grid {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .pricing-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(99,102,241,0.12); }
+    .pricing-card.popular { border-color: var(--accent); }
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #fff;
+      padding: 0.2rem 1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .pricing-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+    .pricing-card .price {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0.75rem 0;
+    }
+    .pricing-card .price sup { font-size: 1.2rem; }
+    .pricing-card .price sub { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+    .pricing-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .btn-enroll {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .btn-enroll:hover { background: #4f46e5; }
+    .btn-enroll.enrolled-btn { background: #059669; cursor: default; }
   </style>
 </head>
 <body>
@@ -489,10 +1000,15 @@
     </a>
     <ul class="nav-links">
       <li><a href="#courses" class="active">Courses</a></li>
+      <li><a href="#pricing">Pricing</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><a href="#contact" class="nav-cta">Enroll Now</a></li>
+      <li><a href="#" class="nav-cta" id="navSignInBtn">Sign In</a></li>
     </ul>
+    <div class="user-pill" id="userPill" onclick="openUserMenu()">
+      <div class="avatar" id="userAvatar">?</div>
+      <span id="userNameLabel">Account</span>
+    </div>
   </nav>
 
   <!-- ── Hero ── -->
@@ -514,62 +1030,123 @@
     </div>
     <div class="courses-grid">
 
-      <div class="course-card">
+      <div class="course-card" data-course="Kubernetes (CKA)">
         <div class="course-icon" style="background:#e0e7ff;">&#x2601;&#xFE0F;</div>
         <h3>Kubernetes (CKA)</h3>
         <p>Master container orchestration — from cluster setup to production-grade deployments. Prep for the CKA exam with hands-on labs.</p>
-        <span class="course-tag">DevOps</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">DevOps</span>
+          <span class="enrolled-badge" id="enrolled-Kubernetes (CKA)">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('Kubernetes (CKA)')">Enroll — ₹4,149</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="DevOps & CI/CD">
         <div class="course-icon" style="background:#fce7f3;">&#x1F6E0;&#xFE0F;</div>
         <h3>DevOps &amp; CI/CD</h3>
         <p>Build automated pipelines with Jenkins, GitHub Actions, and ArgoCD. Ship software faster with confidence.</p>
-        <span class="course-tag">DevOps</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">DevOps</span>
+          <span class="enrolled-badge" id="enrolled-DevOps & CI/CD">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('DevOps &amp; CI/CD')">Enroll — ₹4,149</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="Terraform & IaC">
         <div class="course-icon" style="background:#d1fae5;">&#x1F4BB;</div>
         <h3>Terraform &amp; IaC</h3>
         <p>Provision cloud infrastructure on AWS, Azure, and GCP using Terraform. Write reusable, version-controlled infrastructure code.</p>
-        <span class="course-tag">Cloud</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">Cloud</span>
+          <span class="enrolled-badge" id="enrolled-Terraform & IaC">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('Terraform &amp; IaC')">Enroll — ₹3,319</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="Docker & Containers">
         <div class="course-icon" style="background:#fef9c3;">&#x1F433;</div>
         <h3>Docker &amp; Containers</h3>
         <p>Containerize applications from scratch. Understand images, volumes, networks, and Docker Compose workflows.</p>
-        <span class="course-tag">Containers</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">Containers</span>
+          <span class="enrolled-badge" id="enrolled-Docker & Containers">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('Docker &amp; Containers')">Enroll — ₹2,489</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="Cloud Computing">
         <div class="course-icon" style="background:#dbeafe;">&#x1F5A7;&#xFE0F;</div>
         <h3>Cloud Computing (Azure / AWS)</h3>
         <p>Learn core cloud services, networking, storage, security, and deployment strategies on Azure and AWS.</p>
-        <span class="course-tag">Cloud</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">Cloud</span>
+          <span class="enrolled-badge" id="enrolled-Cloud Computing">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('Cloud Computing')">Enroll — ₹4,149</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="Python for DevOps">
         <div class="course-icon" style="background:#ede9fe;">&#x1F40D;</div>
         <h3>Python for DevOps</h3>
         <p>Automate infrastructure tasks, write Kubernetes operators, and build CLI tools using Python.</p>
-        <span class="course-tag">Programming</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">Programming</span>
+          <span class="enrolled-badge" id="enrolled-Python for DevOps">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('Python for DevOps')">Enroll — ₹2,489</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="Networking Fundamentals">
         <div class="course-icon" style="background:#fee2e2;">&#x1F4E1;</div>
         <h3>Networking Fundamentals</h3>
         <p>Understand TCP/IP, DNS, VPCs, subnets, firewalls, and cloud networking — essential knowledge for any cloud/DevOps engineer.</p>
-        <span class="course-tag">Networking</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">Networking</span>
+          <span class="enrolled-badge" id="enrolled-Networking Fundamentals">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('Networking Fundamentals')">Enroll — ₹2,489</button>
+        </div>
       </div>
 
-      <div class="course-card">
+      <div class="course-card" data-course="DevSecOps">
         <div class="course-icon" style="background:#ecfdf5;">&#x1F512;</div>
         <h3>DevSecOps</h3>
         <p>Integrate security into your pipelines. Learn SAST, DAST, container scanning, secrets management, and compliance automation.</p>
-        <span class="course-tag">Security</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <span class="course-tag">Security</span>
+          <span class="enrolled-badge" id="enrolled-DevSecOps">✓ Enrolled</span>
+          <button class="btn-enroll" onclick="startEnroll('DevSecOps')">Enroll — ₹4,979</button>
+        </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ── Pricing ── -->
+  <div id="pricing">
+    <div class="section-title">
+      <h2>Simple, Transparent Pricing</h2>
+      <p>One-time course payment — lifetime access, no subscriptions</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Starter Courses</h3>
+        <div class="price"><sup>₹</sup>2,489<sub></sub></div>
+        <p>Docker, Python for DevOps, Networking Fundamentals</p>
+        <button class="btn-enroll" onclick="startEnroll('Docker &amp; Containers')">Get Started</button>
+      </div>
+      <div class="pricing-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <h3>Core DevOps</h3>
+        <div class="price"><sup>₹</sup>4,149<sub></sub></div>
+        <p>Kubernetes (CKA), DevOps &amp; CI/CD, Cloud Computing</p>
+        <button class="btn-enroll" onclick="startEnroll('Kubernetes (CKA)')">Get Started</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Advanced Security</h3>
+        <div class="price"><sup>₹</sup>4,979<sub></sub></div>
+        <p>DevSecOps — the full security-integrated pipeline course</p>
+        <button class="btn-enroll" onclick="startEnroll('DevSecOps')">Get Started</button>
+      </div>
     </div>
   </div>
 
@@ -677,19 +1254,663 @@
     <p>&copy; 2026 <strong>TechUstad</strong>. All rights reserved. &nbsp;|&nbsp; Learn Tech. Lead the Future.</p>
   </footer>
 
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  AUTH MODAL                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <button class="modal-close">&times;</button>
+
+      <!-- Login View -->
+      <div id="loginView">
+        <h2>Welcome back</h2>
+        <p class="modal-sub">Sign in to access your courses</p>
+
+        <div class="social-auth-grid">
+          <a href="/auth/google" class="social-btn google">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Gmail
+          </a>
+          <a href="/auth/github" class="social-btn github">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+          <a href="/auth/instagram" class="social-btn instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Instagram
+          </a>
+          <button class="social-btn phone" data-view="phoneView">
+            📱 Continue with Phone OTP
+          </button>
+        </div>
+
+        <div class="or-divider">or sign in with email</div>
+
+        <div class="auth-error" id="loginError"></div>
+        <form class="auth-form" id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email address" required autocomplete="email" />
+          <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password" />
+          <button type="submit" class="btn-auth" id="loginBtn">Sign In</button>
+        </form>
+        <div class="auth-toggle">
+          Don't have an account? <a href="#" data-view="registerView">Create one</a>
+        </div>
+      </div>
+
+      <!-- Register View -->
+      <div id="registerView" style="display:none;">
+        <h2>Create account</h2>
+        <p class="modal-sub">Join 5,000+ students learning tech</p>
+
+        <div class="social-auth-grid">
+          <a href="/auth/google" class="social-btn google">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Gmail
+          </a>
+          <a href="/auth/github" class="social-btn github">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+        </div>
+        <div class="or-divider">or register with email</div>
+
+        <div class="auth-error" id="registerError"></div>
+        <form class="auth-form" id="registerForm">
+          <input type="text"     id="regName"     placeholder="Full Name" required autocomplete="name" />
+          <input type="email"    id="regEmail"    placeholder="Email address" required autocomplete="email" />
+          <input type="password" id="regPassword" placeholder="Password (min 8 chars)" required autocomplete="new-password" />
+          <button type="submit" class="btn-auth" id="registerBtn">Create Account</button>
+        </form>
+        <div class="auth-toggle">
+          Already have an account? <a href="#" data-view="loginView">Sign in</a>
+        </div>
+      </div>
+
+      <!-- Phone OTP View -->
+      <div id="phoneView" style="display:none;">
+        <h2>Phone Sign In</h2>
+        <p class="modal-sub">We'll send a 6-digit code to your number</p>
+
+        <div class="auth-error"   id="phoneError"></div>
+        <div class="auth-success" id="phoneSuccess"></div>
+
+        <form class="auth-form" id="phoneForm">
+          <div class="otp-row">
+            <input type="tel" id="phoneNumber" placeholder="+1 (555) 000-0000" required autocomplete="tel" />
+            <button type="button" id="sendOtpBtn">Send OTP</button>
+          </div>
+          <input type="text" id="otpCode" placeholder="Enter 6-digit code" maxlength="6" pattern="\d{6}" style="display:none;" autocomplete="one-time-code" />
+          <button type="submit" class="btn-auth" id="verifyOtpBtn" style="display:none;">Verify &amp; Sign In</button>
+        </form>
+        <div class="auth-toggle">
+          <a href="#" data-view="loginView">← Back to Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  PAYMENT MODAL                                               -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal payment-modal">
+      <button class="modal-close" onclick="closeModal('paymentModal')">&times;</button>
+      <h2>Enroll in Course</h2>
+      <p class="modal-sub" id="paymentCourseName">Select your course below</p>
+
+      <div class="price-display" id="paymentPrice">$0.00</div>
+
+      <div class="auth-error"   id="paymentError"></div>
+      <div class="auth-success" id="paymentSuccess"></div>
+
+      <form class="card-form" onsubmit="handlePayment(event)" id="paymentForm">
+        <input type="text" id="cardName"   placeholder="Name on card" required autocomplete="cc-name" />
+        <input type="text" id="cardNumber" placeholder="Card number (demo: any 16 digits)" required
+               maxlength="19" oninput="formatCard(this)" autocomplete="cc-number" />
+        <div class="card-row">
+          <input type="text" id="cardExpiry" placeholder="MM / YY" required maxlength="7"
+                 oninput="formatExpiry(this)" autocomplete="cc-exp" />
+          <input type="text" id="cardCvc"    placeholder="CVC" required maxlength="4"
+                 autocomplete="cc-csc" />
+        </div>
+        <button type="submit" class="pay-btn" id="payBtn">Pay &amp; Enroll</button>
+        <div class="secure-note">🔒 Secured by Stripe — your card data is never stored on our servers</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  SUPPORT CHAT WIDGET                                         -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <button class="support-fab" onclick="toggleSupport()" title="Support">
+    💬
+    <span class="badge" id="supportBadge">1</span>
+  </button>
+
+  <div class="support-panel" id="supportPanel">
+    <div class="support-header">
+      <div>
+        <h4>TechUstad Support</h4>
+        <p>We typically reply within 2 hours</p>
+      </div>
+      <button onclick="toggleSupport()">✕</button>
+    </div>
+
+    <div class="support-tabs">
+      <button class="support-tab active" id="tab-new"     onclick="switchSupportTab('new')">New Ticket</button>
+      <button class="support-tab"        id="tab-tickets" onclick="switchSupportTab('tickets')">My Tickets</button>
+      <button class="support-tab"        id="tab-faq"     onclick="switchSupportTab('faq')">FAQ</button>
+    </div>
+
+    <!-- New Ticket -->
+    <div class="support-body" id="support-new">
+      <div class="auth-error"   id="ticketError"  ></div>
+      <div class="auth-success" id="ticketSuccess" ></div>
+      <form class="support-form" onsubmit="submitTicket(event)">
+        <input type="text"  id="ticketName"    placeholder="Your name"  required />
+        <input type="email" id="ticketEmail"   placeholder="Your email" required />
+        <select id="ticketPriority">
+          <option value="low">Low — general question</option>
+          <option value="medium" selected>Medium — need help soon</option>
+          <option value="high">High — blocking my progress</option>
+        </select>
+        <input type="text" id="ticketSubject" placeholder="Subject" required />
+        <textarea id="ticketMessage" placeholder="Describe your issue..." required></textarea>
+        <button type="submit" class="support-submit">Send Message</button>
+      </form>
+    </div>
+
+    <!-- My Tickets -->
+    <div class="support-body" id="support-tickets" style="display:none;">
+      <div id="ticketsList">
+        <p style="color:var(--muted);font-size:0.88rem;">
+          <a href="#" onclick="openAuth(event)" style="color:var(--accent);font-weight:600;">Sign in</a>
+          to view your tickets.
+        </p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="support-body" id="support-faq" style="display:none;">
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <details style="border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
+          <summary style="font-weight:700;cursor:pointer;font-size:0.9rem;">How do I access my course after purchase?</summary>
+          <p style="margin-top:0.6rem;font-size:0.85rem;color:var(--muted);">After payment, log in and your dashboard will show all enrolled courses. You get lifetime access.</p>
+        </details>
+        <details style="border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
+          <summary style="font-weight:700;cursor:pointer;font-size:0.9rem;">Can I get a refund?</summary>
+          <p style="margin-top:0.6rem;font-size:0.85rem;color:var(--muted);">Yes — 30-day money-back guarantee, no questions asked. Contact support with your order ID.</p>
+        </details>
+        <details style="border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
+          <summary style="font-weight:700;cursor:pointer;font-size:0.9rem;">Do courses include certificates?</summary>
+          <p style="margin-top:0.6rem;font-size:0.85rem;color:var(--muted);">Yes! Every course includes a completion certificate you can add to LinkedIn.</p>
+        </details>
+        <details style="border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
+          <summary style="font-weight:700;cursor:pointer;font-size:0.9rem;">Is there a community / Discord?</summary>
+          <p style="margin-top:0.6rem;font-size:0.85rem;color:var(--muted);">Yes — enrolled students get access to our private Slack & Discord community with mentors.</p>
+        </details>
+        <details style="border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
+          <summary style="font-weight:700;cursor:pointer;font-size:0.9rem;">What payment methods are accepted?</summary>
+          <p style="margin-top:0.6rem;font-size:0.85rem;color:var(--muted);">Visa, Mastercard, Amex, Apple Pay, Google Pay — all processed securely through Stripe.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  JAVASCRIPT                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
   <script>
-    // Smooth scrolling for nav links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
+    // ── State ──────────────────────────────────────────────────
+    let currentUser  = null;
+    let pendingCourse = null;
+    const TOKEN_KEY  = 'tu_token';
+
+    // ── Init ───────────────────────────────────────────────────
+    (async function init() {
+      // Handle OAuth callback token in URL
+      const params = new URLSearchParams(location.search);
+      const cbToken = params.get('token');
+      const authErr = params.get('auth_error');
+      if (cbToken) {
+        localStorage.setItem(TOKEN_KEY, cbToken);
+        history.replaceState({}, '', '/');
+      }
+      if (authErr) {
+        history.replaceState({}, '', '/');
+        showToast('Auth error: ' + decodeURIComponent(authErr), 'error');
+      }
+
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (token) {
+        try {
+          const res = await apiFetch('/auth/me');
+          if (res.user) setCurrentUser(res.user);
+        } catch { localStorage.removeItem(TOKEN_KEY); }
+      }
+
+      // Smooth nav links
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href && href !== '#') {
+            const target = document.querySelector(href);
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+          }
+        });
+      });
+    })();
+
+    // ── API helper ─────────────────────────────────────────────
+    async function apiFetch(url, opts = {}) {
+      const token = localStorage.getItem(TOKEN_KEY);
+      const res = await fetch(url, {
+        ...opts,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...(opts.headers || {}),
+        },
+        body: opts.body ? JSON.stringify(opts.body) : undefined,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+
+    // ── User State ─────────────────────────────────────────────
+    function setCurrentUser(user) {
+      currentUser = user;
+      const pill  = document.getElementById('userPill');
+      const btn   = document.getElementById('navSignInBtn');
+      const avatar = document.getElementById('userAvatar');
+      const label  = document.getElementById('userNameLabel');
+
+      if (user) {
+        pill.style.display = 'flex';
+        btn.style.display  = 'none';
+        const initials = (user.full_name || user.email || user.phone || '?')
+          .split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        if (user.avatar) {
+          avatar.innerHTML = `<img src="${user.avatar}" alt="avatar" />`;
+        } else {
+          avatar.textContent = initials;
+        }
+        label.textContent = user.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Account';
+        loadEnrollments();
+      } else {
+        pill.style.display = 'none';
+        btn.style.display  = '';
+      }
+    }
+
+    async function loadEnrollments() {
+      try {
+        const { enrollments } = await apiFetch('/api/payment/enrollments');
+        enrollments.forEach(e => {
+          const badge = document.getElementById('enrolled-' + e.course);
+          if (badge) {
+            badge.style.display = 'inline-block';
+            const btn = badge.closest('[data-course]')?.querySelector('.btn-enroll');
+            if (btn) { btn.textContent = '✓ Enrolled'; btn.classList.add('enrolled-btn'); btn.disabled = true; }
+          }
+        });
+      } catch { /* not logged in */ }
+    }
+
+    function openUserMenu() {
+      if (confirm('Sign out of TechUstad?')) logout();
+    }
+
+    async function logout() {
+      try { await apiFetch('/auth/logout', { method: 'POST' }); } catch {}
+      localStorage.removeItem(TOKEN_KEY);
+      currentUser = null;
+      setCurrentUser(null);
+      // Reset enrolled badges
+      document.querySelectorAll('.enrolled-badge').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.btn-enroll').forEach(b => {
+        b.disabled = false;
+        b.classList.remove('enrolled-btn');
+        if (b.textContent === '✓ Enrolled') {
+          const course = b.closest('[data-course]')?.dataset.course;
+          if (course) b.textContent = 'Enroll — ' + formatPrice(course);
         }
       });
-    });
+    }
 
-    // Contact form handler
+    // ── Modal helpers ──────────────────────────────────────────
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function closeModalOnBackdrop(e, id) { if (e.target === e.currentTarget) closeModal(id); }
+
+    // ── Auth Modal ─────────────────────────────────────────────
+    function openAuth(e) {
+      console.log('openAuth called', e);
+      if (e) e.preventDefault();
+      switchView('loginView');
+      const modal = document.getElementById('authModal');
+      console.log('authModal element:', modal);
+      if (modal) {
+        modal.classList.add('active');
+        console.log('Active class added, modal now:', modal.classList);
+      } else {
+        console.error('authModal element not found!');
+      }
+    }
+
+    function switchView(viewId) {
+      ['loginView','registerView','phoneView'].forEach(v => {
+        document.getElementById(v).style.display = v === viewId ? '' : 'none';
+      });
+    }
+
+    function showAuthError(errorId, msg) {
+      const el = document.getElementById(errorId);
+      el.textContent = msg;
+      el.classList.add('show');
+    }
+    function clearAuthMessages(...ids) {
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.classList.remove('show'); el.textContent = ''; }
+      });
+    }
+
+    // Email login
+    async function handleEmailLogin(e) {
+      e.preventDefault();
+      clearAuthMessages('loginError');
+      const btn = document.getElementById('loginBtn');
+      btn.textContent = 'Signing in…';
+      btn.disabled = true;
+      try {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        console.log('Login attempt:', { email, password: '***' });
+        
+        const data = await apiFetch('/auth/login', {
+          method: 'POST',
+          body: {
+            email: email,
+            password: password,
+          },
+        });
+        console.log('Login success:', data);
+        localStorage.setItem(TOKEN_KEY, data.token);
+        setCurrentUser(data.user);
+        closeModal('authModal');
+        showToast('Welcome back! 🎉', 'success');
+        if (pendingCourse) { const c = pendingCourse; pendingCourse = null; openPayment(c); }
+      } catch (err) {
+        console.error('Login error:', err);
+        showAuthError('loginError', err.message || 'Invalid email or password');
+      } finally {
+        btn.textContent = 'Sign In';
+        btn.disabled = false;
+      }
+    }
+
+    // Email register
+    async function handleRegister(e) {
+      e.preventDefault();
+      clearAuthMessages('registerError');
+      const btn = document.getElementById('registerBtn');
+      btn.textContent = 'Creating account…';
+      btn.disabled = true;
+      try {
+        const fullName = document.getElementById('regName').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        
+        console.log('Registration attempt:', { fullName, email, password: '***' });
+        
+        const data = await apiFetch('/auth/register', {
+          method: 'POST',
+          body: {
+            full_name: fullName,
+            email: email,
+            password: password,
+          },
+        });
+        
+        console.log('Registration success:', data);
+        localStorage.setItem(TOKEN_KEY, data.token);
+        setCurrentUser(data.user);
+        closeModal('authModal');
+        showToast('Account created! Welcome to TechUstad 🎉', 'success');
+        if (pendingCourse) { const c = pendingCourse; pendingCourse = null; openPayment(c); }
+      } catch (err) {
+        console.error('Registration error:', err);
+        showAuthError('registerError', err.message || 'Failed to create account');
+      } finally {
+        btn.textContent = 'Create Account';
+        btn.disabled = false;
+      }
+    }
+
+    // Phone OTP
+    let otpSent = false;
+    async function sendOTP() {
+      clearAuthMessages('phoneError', 'phoneSuccess');
+      const phone = document.getElementById('phoneNumber').value;
+      if (!phone) return showAuthError('phoneError', 'Enter your phone number first');
+      const btn = document.getElementById('sendOtpBtn');
+      btn.textContent = 'Sending…';
+      btn.disabled    = true;
+      try {
+        const data = await apiFetch('/auth/phone/send-otp', { method: 'POST', body: { phone } });
+        otpSent = true;
+        document.getElementById('otpCode').style.display    = '';
+        document.getElementById('verifyOtpBtn').style.display = '';
+        const phoneSuccess = document.getElementById('phoneSuccess');
+        phoneSuccess.textContent = data.message || 'OTP sent!';
+        phoneSuccess.classList.add('show');
+        // Dev mode: show code
+        if (data.dev?.code) {
+          phoneSuccess.textContent += ` (Dev mode — code: ${data.dev.code})`;
+        }
+        let countdown = 60;
+        const timer = setInterval(() => {
+          btn.textContent = `Resend (${--countdown}s)`;
+          if (countdown <= 0) { clearInterval(timer); btn.textContent = 'Resend OTP'; btn.disabled = false; }
+        }, 1000);
+      } catch (err) {
+        showAuthError('phoneError', err.message);
+        btn.textContent = 'Send OTP';
+        btn.disabled    = false;
+      }
+    }
+
+    async function handlePhoneAuth(e) {
+      e.preventDefault();
+      if (!otpSent) return showAuthError('phoneError', 'Send OTP first');
+      clearAuthMessages('phoneError', 'phoneSuccess');
+      const btn = document.getElementById('verifyOtpBtn');
+      btn.textContent = 'Verifying…';
+      btn.disabled    = true;
+      try {
+        const data = await apiFetch('/auth/phone/verify-otp', {
+          method: 'POST',
+          body: {
+            phone: document.getElementById('phoneNumber').value,
+            code:  document.getElementById('otpCode').value,
+          },
+        });
+        localStorage.setItem(TOKEN_KEY, data.token);
+        setCurrentUser(data.user);
+        closeModal('authModal');
+        if (pendingCourse) { const c = pendingCourse; pendingCourse = null; openPayment(c); }
+      } catch (err) {
+        showAuthError('phoneError', err.message);
+      } finally {
+        btn.textContent = 'Verify & Sign In';
+        btn.disabled    = false;
+      }
+    }
+
+    // ── Payment Modal ──────────────────────────────────────────
+    const PRICES = {
+      'Kubernetes (CKA)':        '₹4,149',
+      'DevOps & CI/CD':          '₹4,149',
+      'Terraform & IaC':         '₹3,319',
+      'Docker & Containers':     '₹2,489',
+      'Cloud Computing':         '₹4,149',
+      'Python for DevOps':       '₹2,489',
+      'Networking Fundamentals': '₹2,489',
+      'DevSecOps':               '₹4,979',
+    };
+
+    function formatPrice(course) {
+      return PRICES[course] || '$0.00';
+    }
+
+    function startEnroll(course) {
+      if (!currentUser) {
+        pendingCourse = course;
+        openAuth(null);
+        return;
+      }
+      openPayment(course);
+    }
+
+    function openPayment(course) {
+      pendingCourse = course;
+      document.getElementById('paymentCourseName').textContent = course;
+      document.getElementById('paymentPrice').innerHTML =
+        `${PRICES[course] || '$0.00'} <span>one-time payment</span>`;
+      clearAuthMessages('paymentError', 'paymentSuccess');
+      document.getElementById('paymentForm').reset();
+      document.getElementById('payBtn').textContent = 'Pay & Enroll';
+      document.getElementById('payBtn').disabled = false;
+      openModal('paymentModal');
+    }
+
+    async function handlePayment(e) {
+      e.preventDefault();
+      clearAuthMessages('paymentError', 'paymentSuccess');
+      const btn = document.getElementById('payBtn');
+      btn.textContent = 'Processing…';
+      btn.disabled    = true;
+      try {
+        // Create payment intent (demo or Stripe)
+        const intent = await apiFetch('/api/payment/create-intent', {
+          method: 'POST',
+          body: { course: pendingCourse },
+        });
+
+        // Confirm enrollment
+        await apiFetch('/api/payment/confirm', {
+          method: 'POST',
+          body: { course: pendingCourse, paymentIntentId: intent.clientSecret },
+        });
+
+        const successEl = document.getElementById('paymentSuccess');
+        successEl.textContent = `✓ Successfully enrolled in "${pendingCourse}"! Check your email for details.`;
+        successEl.classList.add('show');
+        btn.textContent = '✓ Enrolled!';
+
+        // Update badge on course card
+        const badge = document.getElementById('enrolled-' + pendingCourse);
+        if (badge) {
+          badge.style.display = 'inline-block';
+          const card = badge.closest('[data-course]');
+          const enrollBtn = card?.querySelector('.btn-enroll');
+          if (enrollBtn) { enrollBtn.textContent = '✓ Enrolled'; enrollBtn.classList.add('enrolled-btn'); enrollBtn.disabled = true; }
+        }
+
+        setTimeout(() => closeModal('paymentModal'), 3000);
+      } catch (err) {
+        showAuthError('paymentError', err.message);
+        btn.textContent = 'Pay & Enroll';
+        btn.disabled    = false;
+      }
+    }
+
+    // Card input formatting
+    function formatCard(input) {
+      let v = input.value.replace(/\D/g, '').slice(0, 16);
+      input.value = v.replace(/(.{4})/g, '$1 ').trim();
+    }
+    function formatExpiry(input) {
+      let v = input.value.replace(/\D/g, '').slice(0, 4);
+      if (v.length > 2) v = v.slice(0,2) + ' / ' + v.slice(2);
+      input.value = v;
+    }
+
+    // ── Support Widget ──────────────────────────────────────────
+    function toggleSupport() {
+      const panel = document.getElementById('supportPanel');
+      panel.classList.toggle('open');
+      document.getElementById('supportBadge').style.display = 'none';
+    }
+
+    function switchSupportTab(tab) {
+      ['new','tickets','faq'].forEach(t => {
+        document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+        document.getElementById('support-' + t).style.display = t === tab ? '' : 'none';
+      });
+      if (tab === 'tickets') loadTickets();
+    }
+
+    async function loadTickets() {
+      const container = document.getElementById('ticketsList');
+      if (!currentUser) {
+        container.innerHTML = `<p style="color:var(--muted);font-size:0.88rem;">
+          <a href="#" onclick="openAuth(event)" style="color:var(--accent);font-weight:600;">Sign in</a>
+          to view your tickets.</p>`;
+        return;
+      }
+      container.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;">Loading…</p>';
+      try {
+        const { tickets } = await apiFetch('/api/support/tickets');
+        if (!tickets.length) {
+          container.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;">No tickets yet.</p>';
+          return;
+        }
+        container.innerHTML = tickets.map(t => `
+          <div class="ticket-card">
+            <h5>${escapeHtml(t.subject)}</h5>
+            <div class="ticket-meta">
+              <span class="ticket-status status-${t.status}">${t.status}</span>
+              <span class="ticket-date">${new Date(t.created_at).toLocaleDateString()}</span>
+            </div>
+          </div>`).join('');
+      } catch {
+        container.innerHTML = '<p style="color:#b91c1c;font-size:0.85rem;">Failed to load tickets.</p>';
+      }
+    }
+
+    async function submitTicket(e) {
+      e.preventDefault();
+      clearAuthMessages('ticketError', 'ticketSuccess');
+      const btn = e.target.querySelector('.support-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled    = true;
+      try {
+        await apiFetch('/api/support/ticket', {
+          method: 'POST',
+          body: {
+            name:     document.getElementById('ticketName').value,
+            email:    document.getElementById('ticketEmail').value,
+            subject:  document.getElementById('ticketSubject').value,
+            message:  document.getElementById('ticketMessage').value,
+            priority: document.getElementById('ticketPriority').value,
+          },
+        });
+        const s = document.getElementById('ticketSuccess');
+        s.textContent = '✓ Ticket submitted! We\'ll reply to your email within 2 hours.';
+        s.classList.add('show');
+        e.target.reset();
+      } catch (err) {
+        showAuthError('ticketError', err.message);
+      } finally {
+        btn.textContent = 'Send Message';
+        btn.disabled    = false;
+      }
+    }
+
+    // ── Contact form ────────────────────────────────────────────
     function handleSubmit(e) {
       e.preventDefault();
       const btn = e.target.querySelector('button');
@@ -701,6 +1922,111 @@
         e.target.reset();
       }, 3000);
     }
+
+    // ── Utility ────────────────────────────────────────────────
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showToast(msg, type = 'info') {
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.style.cssText = `
+        position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);
+        padding:0.75rem 1.5rem;border-radius:8px;font-size:0.9rem;font-weight:600;
+        z-index:9999;background:${type === 'error' ? '#fee2e2' : '#d1fae5'};
+        color:${type === 'error' ? '#b91c1c' : '#065f46'};
+        box-shadow:0 4px 20px rgba(0,0,0,0.15);
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 5000);
+    }
+
+    // ── Event Listener Initialization (replaces inline onclick) ──
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOMContentLoaded fired - initializing event listeners');
+      
+      // Sign In button
+      const navSignInBtn = document.getElementById('navSignInBtn');
+      if (navSignInBtn) navSignInBtn.addEventListener('click', e => openAuth(e));
+
+      // User pill
+      const userPill = document.getElementById('userPill');
+      if (userPill) userPill.addEventListener('click', openUserMenu);
+
+      // Modal backdrops
+      const authModal = document.getElementById('authModal');
+      if (authModal) authModal.addEventListener('click', e => closeModalOnBackdrop(e, 'authModal'));
+
+      const paymentModal = document.getElementById('paymentModal');
+      if (paymentModal) paymentModal.addEventListener('click', e => closeModalOnBackdrop(e, 'paymentModal'));
+
+      // Modal close buttons
+      document.querySelectorAll('.modal-close').forEach(btn => {
+        const modal = btn.closest('.modal-overlay');
+        if (modal) btn.addEventListener('click', () => closeModal(modal.id));
+      });
+
+      // Enroll buttons
+      document.querySelectorAll('.btn-enroll').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const courseName = e.target.textContent.match(/^(.*?) — /)?.[1] || 
+                            e.target.textContent.match(/^(.*?)\s+—/)?.[1] ||
+                            e.target.textContent.includes('Get Started') ? 
+                            (e.target.closest('.course-card')?.querySelector('h3')?.textContent || 'Course') : '';
+          if (courseName) startEnroll(courseName);
+        });
+      });
+
+      // View switchers (Phone, Register, Login)
+      document.querySelectorAll('[data-view]').forEach(el => {
+        el.addEventListener('click', e => {
+          e.preventDefault();
+          const viewId = el.getAttribute('data-view');
+          switchView(viewId);
+        });
+      });
+
+      // Send OTP button
+      const sendOtpBtn = document.getElementById('sendOtpBtn');
+      if (sendOtpBtn) {
+        console.log('Attaching send OTP button listener');
+        sendOtpBtn.addEventListener('click', sendOTP);
+      }
+
+      // Phone form
+      const phoneForm = document.getElementById('phoneForm');
+      if (phoneForm) {
+        console.log('Attaching phone form listener');
+        phoneForm.addEventListener('submit', handlePhoneAuth);
+      } else {
+        console.warn('Phone form not found');
+      }
+
+      // Registration form - IMPORTANT!
+      const registerForm = document.getElementById('registerForm');
+      if (registerForm) {
+        console.log('Attaching registration form listener');
+        registerForm.addEventListener('submit', handleRegister);
+      } else {
+        console.warn('Registration form not found');
+      }
+
+      // Login form - IMPORTANT!
+      const loginForm = document.getElementById('loginForm');
+      if (loginForm) {
+        console.log('Attaching login form listener');
+        loginForm.addEventListener('submit', handleEmailLogin);
+      } else {
+        console.warn('Login form not found');
+      }
+
+      console.log('Event listeners initialized successfully');
+    });
   </script>
 
 </body>

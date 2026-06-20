@@ -1,0 +1,259 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: techustad
+  labels:
+    name: techustad
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: techustad-config
+  namespace: techustad
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  APP_URL: "https://techustad.com:3000"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: techustad-secrets
+  namespace: techustad
+type: Opaque
+stringData:
+  JWT_SECRET: "change-me-in-production"
+  SESSION_SECRET: "change-me-in-production"
+  GOOGLE_CLIENT_ID: ""
+  GOOGLE_CLIENT_SECRET: ""
+  GITHUB_CLIENT_ID: ""
+  GITHUB_CLIENT_SECRET: ""
+  TWILIO_ACCOUNT_SID: ""
+  TWILIO_AUTH_TOKEN: ""
+  TWILIO_PHONE_NUMBER: ""
+  STRIPE_SECRET_KEY: ""
+  STRIPE_PUBLISHABLE_KEY: ""
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: techustad-data-pvc
+  namespace: techustad
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techustad-backend
+  namespace: techustad
+  labels:
+    app: techustad-backend
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: techustad-backend
+  template:
+    metadata:
+      labels:
+        app: techustad-backend
+        version: v1
+    spec:
+      serviceAccountName: techustad-sa
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+
+      containers:
+      - name: backend
+        image: techustad-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - name: https
+          containerPort: 3000
+          protocol: TCP
+
+        envFrom:
+        - configMapRef:
+            name: techustad-config
+        - secretRef:
+            name: techustad-secrets
+
+        volumeMounts:
+        - name: data
+          mountPath: /app/data
+        - name: certs
+          mountPath: /app/src
+          readOnly: true
+
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+            scheme: HTTPS
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+              - ALL
+
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: techustad-data-pvc
+      - name: certs
+        secret:
+          secretName: techustad-tls
+          defaultMode: 0400
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techustad-backend
+  namespace: techustad
+  labels:
+    app: techustad-backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: techustad-backend
+  ports:
+  - name: https
+    port: 443
+    targetPort: 3000
+    protocol: TCP
+  sessionAffinity: ClientIP
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: techustad-backend-hpa
+  namespace: techustad
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: techustad-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: techustad-backend-pdb
+  namespace: techustad
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: techustad-backend
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: techustad-sa
+  namespace: techustad
+
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: techustad-quota
+  namespace: techustad
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: "1Gi"
+    limits.cpu: "4"
+    limits.memory: "2Gi"
+    pods: "20"
+    services: "10"
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: techustad-network-policy
+  namespace: techustad
+spec:
+  podSelector:
+    matchLabels:
+      app: techustad-backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector: {}
+    ports:
+    - protocol: TCP
+      port: 3000
+  egress:
+  - to:
+    - podSelector: {}
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53

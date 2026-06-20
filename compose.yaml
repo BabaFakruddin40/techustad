@@ -7,10 +7,19 @@ services:
     container_name: techustad-web-1
     ports:
       - "3001:3001"
+    env_file: .env
     environment:
       - NODE_ENV=production
       - PORT=3001
+      - DATA_DIR=/app/data
+    volumes:
+      - techustad-data:/app/data
+    extra_hosts:
+      - "www.techustad.com:127.0.0.1"
+      - "techustad.com:127.0.0.1"
     restart: unless-stopped
+    networks:
+      - techustad-network
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
       interval: 30s
@@ -26,10 +35,19 @@ services:
     container_name: techustad-web-2
     ports:
       - "3002:3002"
+    env_file: .env
     environment:
       - NODE_ENV=production
       - PORT=3002
+      - DATA_DIR=/app/data
+    volumes:
+      - techustad-data:/app/data
+    extra_hosts:
+      - "www.techustad.com:127.0.0.1"
+      - "techustad.com:127.0.0.1"
     restart: unless-stopped
+    networks:
+      - techustad-network
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3002/health"]
       interval: 30s
@@ -45,10 +63,19 @@ services:
     container_name: techustad-web-3
     ports:
       - "3003:3003"
+    env_file: .env
     environment:
       - NODE_ENV=production
       - PORT=3003
+      - DATA_DIR=/app/data
+    volumes:
+      - techustad-data:/app/data
+    extra_hosts:
+      - "www.techustad.com:127.0.0.1"
+      - "techustad.com:127.0.0.1"
     restart: unless-stopped
+    networks:
+      - techustad-network
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3003/health"]
       interval: 30s
@@ -69,8 +96,21 @@ services:
     depends_on:
       techustad-web-1:
         condition: service_healthy
+        required: true
       techustad-web-2:
         condition: service_healthy
+        required: true
       techustad-web-3:
         condition: service_healthy
+        required: true
     restart: unless-stopped
+    networks:
+      - techustad-network
+
+volumes:
+  techustad-data:
+    driver: local
+
+networks:
+  techustad-network:
+    driver: bridge
