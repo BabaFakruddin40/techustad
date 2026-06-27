@@ -24,8 +24,8 @@ COPY --chown=node:node src/ .
 # Copy .env file with proper ownership
 COPY --chown=node:node .env ./
 
-# Create data directory with proper ownership (BEFORE switching to node user)
-RUN mkdir -p /app/data && chown -R node:node /app/data
+# Create data directory and ensure it's writable by node user
+RUN mkdir -p /app/data && chown -R node:node /app/data && chmod 755 /app/data
 
 EXPOSE 3000
 
